@@ -46,21 +46,7 @@ header {
 
 
 
-.card {
-    height: 500px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: box-shadow 0.3s, background-color 0.3s, border 0.3s, transform 0.3s;
-    border-radius: 10px;
-}
 
-    .card:hover {
-        transform: scale(1.5rem);
-        border: 3px solid var(--accent-bg-color);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-        background-color: #f8f9fa;
-    }
 
 .card-img-top {
     height: 300px;

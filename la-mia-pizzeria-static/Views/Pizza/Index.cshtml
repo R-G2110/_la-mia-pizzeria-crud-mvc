@@ -2,33 +2,40 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<div class="card mt-5" >
+    <div class="card-header">
+        <h1 class="text-center my-1"><strong>Lista Pizze</strong></h1>
+    </div>
+    <div class="card-body">    
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Prezzo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pizza in Model)
+                {
+                    <tr>
+                        <td>@pizza.Name</td>
+                        <td>@pizza.Description</td>
+                        <td>@pizza.Price €</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                <a href="@Url.Action("Show", "Pizza", new { id = pizza.Id })" class="btn btn-primary mx-1">Dettagli</a>
+                                <a href="@Url.Action("Modifica", "Pizza", new { id = pizza.Id })" class="btn btn-warning mx-1">Modifica</a>
+                                <a href="@Url.Action("Cancella", "Pizza", new { id = pizza.Id })" class="btn btn-danger mx-1">Cancella</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<h1 class="text-center my-5"><strong>Lista Pizze</strong></h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Descrizione</th>
-            <th>Prezzo</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var pizza in Model)
-        {
-            <tr>
-                <td>@pizza.Name</td>
-                <td>@pizza.Description</td>
-                <td>@pizza.Price €</td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Actions">
-                        <a href="@Url.Action("Show", "Pizza", new { id = pizza.Id })" class="btn btn-primary">Dettagli</a>
-                        <a href="@Url.Action("Modifica", "Pizza", new { id = pizza.Id })" class="btn btn-warning">Modifica</a>
-                        <a href="@Url.Action("Cancella", "Pizza", new { id = pizza.Id })" class="btn btn-danger">Cancella</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
 
