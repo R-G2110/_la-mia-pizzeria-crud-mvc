@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "la-mia-pizzeria-static", "la-mia-pizzeria-static\la-mia-pizzeria-static.csproj", "{1EF5CE23-B3DB-446D-BFA4-AD0EFE86C421}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "razor", "razor\razor.csproj", "{93BC373F-4F21-4748-BFCC-9D9FC595F35F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "razor", "razor\razor.csproj", "{93BC373F-4F21-4748-BFCC-9D9FC595F35F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

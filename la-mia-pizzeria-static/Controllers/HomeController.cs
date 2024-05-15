@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace la_mia_pizzeria_static.Controllers
 {
@@ -26,7 +27,7 @@ namespace la_mia_pizzeria_static.Controllers
                 new Pizza("Pizza Capricciosa", "Una pizza classica con prosciutto cotto, funghi, carciofi, olive e mozzarella.", "~/img/capricciosa.jpg", 8.99m),
                 new Pizza("Salsiccia e Friarielli", "Una pizza tipica della tradizione napoletana, con salsiccia e friarielli, condita con mozzarella di bufala e pomodoro San Marzano.", "~/img/salsiccia&friarielli.jpg", 8.99m)
             };
-
+  
             return View(pizze); 
         }
 

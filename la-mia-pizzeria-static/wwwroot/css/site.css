@@ -19,8 +19,10 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-  background-color: var(--primary-bg-color);
+    margin-bottom: 60px;
+    background-color: var(--primary-bg-color);
+    color: var(--secondary-bg-color);
+
 }
 
 .container-custom {
@@ -42,8 +44,10 @@ header {
     color: var(--accent-bg-color) !important;
 }
 
+
+
 .card {
-    height: 550px;
+    height: 500px;
     margin-bottom: 20px;
     cursor: pointer;
     border: 3px solid transparent;

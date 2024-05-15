@@ -1,3 +1,10 @@
+using la_mia_pizzeria_static.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace la_mia_pizzeria_static
 {
     public class Program
@@ -6,16 +13,18 @@ namespace la_mia_pizzeria_static
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Aggiungi servizi al container.
+            builder.Services.AddDbContext<PizzaDbContext>(options =>
+                options.UseSqlServer("Data Source=localhost;Initial Catalog=db_la_pizzeria;Integrated Security=True;Trust Server Certificate=True"));
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configura la pipeline delle richieste HTTP.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -28,9 +37,10 @@ namespace la_mia_pizzeria_static
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Pizza}/{action=Index}/{id?}");
 
             app.Run();
         }
+
     }
 }

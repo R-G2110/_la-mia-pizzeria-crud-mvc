@@ -1,0 +1,22 @@
+﻿@model Pizza
+@{
+    ViewData["Title"] = "Dettagli Pizza";
+}
+
+<h1 class="text-center my-5"><strong>Dettagli Pizza</strong></h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <img src="@Url.Content(Model.ImagePath)" class="card-img-top" alt="Foto Pizza">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>@Model.Name</strong></h5>
+                    <p class="card-text">@Model.Description</p>
+                </div>
+                <div class="card-footer">
+                    <h5 class="card-text">Prezzo: <strong>@Model.Price €</strong></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
