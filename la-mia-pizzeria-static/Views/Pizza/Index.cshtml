@@ -2,18 +2,23 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="card mt-5" >
-    <div class="card-header">
-        <h1 class="text-center my-1"><strong>Lista Pizze</strong></h1>
+
+<h1 class="text-center my-1"><strong>Lista Pizze</strong></h1>
+<div class="card mt-5">
+    <div class="card-header d-flex justify-content-end align-items-center">
+        <a href="@Url.Action("Create", "Pizza")">+ Crea nuova pizza</a>
     </div>
-    <div class="card-body">    
+    <div class="card-body">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Nome</th>
+                    <th>
+                        Nome
+                        <button onclick="toggleSortOrder(0)" class="btn btn-sm btn-light">▲▼</button>
+                    </th>
                     <th>Descrizione</th>
                     <th>Prezzo</th>
-                    <th>Actions</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +30,7 @@
                         <td>@pizza.Price €</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Actions">
-                                <a href="@Url.Action("Show", "Pizza", new { id = pizza.Id })" class="btn btn-primary mx-1">Dettagli</a>
+                                <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })" class="btn btn-primary mx-1">Dettagli</a>
                                 <a href="@Url.Action("Modifica", "Pizza", new { id = pizza.Id })" class="btn btn-warning mx-1">Modifica</a>
                                 <a href="@Url.Action("Cancella", "Pizza", new { id = pizza.Id })" class="btn btn-danger mx-1">Cancella</a>
                             </div>
@@ -36,6 +41,42 @@
         </table>
     </div>
 </div>
+<script>
+    var sortOrder = "desc";
+    var priceSortOrder = "desc";
 
+    function toggleSortOrder(columnIndex) {
+        if (columnIndex === 0) {
+            sortOrder = sortOrder === "asc" ? "desc" : "asc";
+            sortTable(sortOrder, columnIndex);
+        } else if (columnIndex === 2) {
+            priceSortOrder = priceSortOrder === "asc" ? "desc" : "asc";
+            sortTable(priceSortOrder, columnIndex);
+        }
+    }
 
+    function sortTable(order, columnIndex) {
+        var rows = document.querySelectorAll("tbody tr");
+        var sortedRows = Array.from(rows).sort((rowA, rowB) => {
+            var valueA = getValue(rowA.cells[columnIndex]);
+            var valueB = getValue(rowB.cells[columnIndex]);
+            if (order === "asc") {
+                return valueA.localeCompare(valueB);
+            } else {
+                return valueB.localeCompare(valueA);
+            }
+        });
 
+        var tbody = document.querySelector("tbody");
+        tbody.innerHTML = "";
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }
+
+    function getValue(cell) {
+        if (cell.textContent.includes("€")) {
+            return parseFloat(cell.textContent.replace(" €", ""));
+        } else {
+            return cell.textContent.toLowerCase();
+        }
+    }
+</script>

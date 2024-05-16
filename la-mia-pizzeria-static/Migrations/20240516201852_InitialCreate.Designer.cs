@@ -11,7 +11,7 @@ using la_mia_pizzeria_static.Data;
 namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(PizzaDbContext))]
-    [Migration("20240515180453_InitialCreate")]
+    [Migration("20240516201852_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,15 +33,16 @@ namespace la_mia_pizzeria_static.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

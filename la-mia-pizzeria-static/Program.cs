@@ -12,19 +12,25 @@ namespace la_mia_pizzeria_static
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            // Inizializza il database
+            using (var context = new PizzaDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
 
-            // Aggiungi servizi al container.
-            builder.Services.AddDbContext<PizzaDbContext>(options =>
-                options.UseSqlServer("Data Source=localhost;Initial Catalog=db_la_pizzeria;Integrated Security=True;Trust Server Certificate=True"));
+            // Esegui il seeding dei dati
+            PizzaManager.Seed();
 
+            // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
-            // Configura la pipeline delle richieste HTTP.
+            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -41,6 +47,5 @@ namespace la_mia_pizzeria_static
 
             app.Run();
         }
-
     }
 }
