@@ -7,13 +7,13 @@
 <div class="card my-5">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
+            <a href="@Url.Action("Create", "Pizza")" class="btn btn-primary">+ Crea nuova pizza</a>
+        </div>
+        <div>
             <form asp-action="Search" method="post" class="d-flex">
                 <input onkeyup="searchPizza()" id="searchInput" type="text" name="searchString" class="form-control" placeholder="Cerca pizza..." />
                 <button type="submit" class="btn btn-primary ms-2">Cerca</button>
             </form>
-        </div>
-        <div>
-            <a href="@Url.Action("Create", "Pizza")" class="btn btn-primary">+ Crea nuova pizza</a>
         </div>
     </div>
     <div class="card-body">
