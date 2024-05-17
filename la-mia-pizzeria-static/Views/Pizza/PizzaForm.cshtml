@@ -1,0 +1,41 @@
+﻿@model la_mia_pizzeria_static.Models.Pizza
+
+@{
+    bool isEditMode = Model != null && Model.Id != 0;
+    ViewData["Title"] = isEditMode ? "Modifica Pizza" : "Crea Pizza";
+}
+
+<h1 class="text-center mt-5"><strong>@(isEditMode ? "Modifica Pizza" : "Crea una nuova Pizza")</strong></h1>
+
+<form asp-controller="Pizza" asp-action="@((isEditMode) ? "Edit" : "Create")" method="post" enctype="multipart/form-data" class="row g-3">
+    @Html.AntiForgeryToken()
+
+    @if (isEditMode)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+    <div class="col-md-6">
+        <label asp-for="Name">Nome pizza:</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Price">Prezzo:</label>
+        <input asp-for="Price" class="form-control" step="0.01" min="0" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="ImagePath">Immagine (percorso dell'immagine'):</label>
+        <input asp-for="ImagePath" class="form-control" />
+        <span asp-validation-for="ImagePath" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Description">Descrizione:</label><br />
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="col-12 d-flex justify-content-end mt-4">
+        <button type="submit" class="btn btn-primary mx-1">Salva</button>
+        <a asp-action="Index" class="btn btn-secondary mx-1">Torna Indietro</a>
+    </div>
+</form>
