@@ -19,7 +19,8 @@ namespace la_mia_pizzeria_static
             }
 
             // Esegui il seeding dei dati
-            PizzaManager.Seed();
+            PizzaManager.SeedCategory();
+            PizzaManager.SeedPizza();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

@@ -2,6 +2,7 @@
 using la_mia_pizzeria_static.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LaMiaPizzeria.Controllers
 {
@@ -42,6 +43,7 @@ namespace LaMiaPizzeria.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name");
             return View("PizzaForm", new Pizza());
         }
 
@@ -55,6 +57,8 @@ namespace LaMiaPizzeria.Controllers
                 TempData["SuccessMessage"] = $"La pizza {pizza.Name} è stata creata con successo!";
                 return RedirectToAction("Index");
             }
+
+            ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name");
             return View("PizzaForm", pizza);
         }
 
@@ -62,9 +66,14 @@ namespace LaMiaPizzeria.Controllers
         {
             var pizza = PizzaManager.GetPizza(id);
             if (pizza != null)
+            {
+                ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name", pizza.CategoryId);
                 return View("PizzaForm", pizza);
+            }
             else
+            {
                 return View("errore");
+            }
         }
 
         [HttpPost]
@@ -77,6 +86,8 @@ namespace LaMiaPizzeria.Controllers
                 TempData["SuccessMessage"] = $"La pizza {pizza.Name} è stata modificata con successo!";
                 return RedirectToAction("Index");
             }
+
+            ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name", pizza.CategoryId);
             return View("PizzaForm", pizza);
         }
 
@@ -92,6 +103,13 @@ namespace LaMiaPizzeria.Controllers
             PizzaManager.DeletePizza(id);
             TempData["SuccessMessage"] = $"La pizza {pizza.Name} è stata eliminata con successo!";
             return RedirectToAction("Index");
+        }
+        private List<Category> GetCategories()
+        {
+            using (var db = new PizzaDbContext())
+            {
+                return db.Categories.ToList();
+            }
         }
     }
 }

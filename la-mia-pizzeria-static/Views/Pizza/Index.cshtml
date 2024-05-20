@@ -32,7 +32,6 @@
         }
         else
         {
-
             <table class="table table-striped table-hover" id="pizzaTable">
                 <thead>
                     <tr>
@@ -40,6 +39,7 @@
                             Nome
                             <button onclick="toggleSortOrder(0)" class="btn btn-sm btn-light">▲▼</button>
                         </th>
+                        <th>Categoria</th>
                         <th>Descrizione</th>
                         <th style="width: 100px;">Prezzo</th>
                         <th style="width: 100px;">Azioni</th>
@@ -50,6 +50,7 @@
                     {
                         <tr style="cursor: pointer;">
                             <td>@pizza.Name</td>
+                            <td>@(pizza.Category?.Name??"Nessuna categoria")</td>
                             <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                 @pizza.Description
                             </td>
@@ -59,7 +60,7 @@
                                 <div class="d-flex justify-content-evenly align-items-center">
                                     <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })" class="text-primary mx-1"><i class="fa-regular fa-eye"></i></a>
                                     <a href="@Url.Action("Edit", "Pizza", new { id = pizza.Id })" class="text-warning mx-1"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="javascript:void(0);" onclick="showDeleteModal('@Url.Action("Delete", "Pizza", new { id = pizza.Id })', '@pizza.Name')" class="text-danger mx-1"><i class="fa-solid fa-trash-can"></i></a>
+                                    <a  onclick="showDeleteModal('@Url.Action("Delete", "Pizza", new { id = pizza.Id })', '@pizza.Name')" class="text-danger mx-1"><i class="fa-solid fa-trash-can"></i></a>
                                 </div>
                             </td>
                         </tr>
@@ -77,9 +78,8 @@
     </div>
 }
 
-<!-- Include the delete modal -->
+<!-- Include delete modal -->
 @Html.Partial("_deleteModal")
 
-
-<!-- Include the pizzaScripts.js file -->
+<!-- Include pizzaScript.js file -->
 <script src="~/js/pizzaScript.js"></script>

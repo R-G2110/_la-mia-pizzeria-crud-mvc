@@ -13,7 +13,6 @@ namespace la_mia_pizzeria_static.Models
 
         [Required(ErrorMessage = "Il campo Descrizione è obbligatorio.")]
         [MaxLength(250, ErrorMessage = "Il campo Descrizione non può superare i 250 caratteri.")]
-        [MinWords(5, ErrorMessage = "La descrizione deve contenere almeno 5 parole.")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Il campo Prezzo è obbligatorio.")]
@@ -21,19 +20,19 @@ namespace la_mia_pizzeria_static.Models
         public decimal Price { get; set; }
 
         public string? ImagePath { get; set; }
-        
-        //Costruttore vuoto
+
+        public int? CategoryId { get; set; } // Make CategoryId nullable
+        public Category? Category { get; set; }
+
         public Pizza() { }
 
-        public Pizza(string nome, string descrizione, string foto, decimal prezzo)
+        public Pizza(string nome, string descrizione, string foto, decimal prezzo, int categoriaId) : this()
         {
-            this.Name = nome;
-            this.Description = descrizione;
-            this.ImagePath = foto;
-            this.Price = prezzo;
+            Name = nome;
+            Description = descrizione;
+            ImagePath = foto;
+            Price = prezzo;
+            CategoryId = categoriaId;
         }
-
-
     }
-
 }
