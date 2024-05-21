@@ -24,7 +24,7 @@ namespace la_mia_pizzeria_static.Data
                 .HasMany(c => c.Pizzas)
                 .WithOne(p => p.Category)
                 .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull); // On delete set null
+                .OnDelete(DeleteBehavior.SetNull); 
 
             modelBuilder.Entity<PizzaIngredient>()
                 .HasKey(pi => new { pi.PizzaId, pi.IngredientId });
@@ -33,13 +33,13 @@ namespace la_mia_pizzeria_static.Data
                 .HasOne(pi => pi.Pizza)
                 .WithMany(p => p.PizzaIngredients)
                 .HasForeignKey(pi => pi.PizzaId)
-                .OnDelete(DeleteBehavior.Cascade); // Cascading delete for PizzaIngredient
+                .OnDelete(DeleteBehavior.Cascade); 
 
             modelBuilder.Entity<PizzaIngredient>()
                 .HasOne(pi => pi.Ingredient)
                 .WithMany(i => i.PizzaIngredients)
                 .HasForeignKey(pi => pi.IngredientId)
-                .OnDelete(DeleteBehavior.Cascade); // Cascading delete for PizzaIngredient
+                .OnDelete(DeleteBehavior.Cascade); 
 
             base.OnModelCreating(modelBuilder);
         }

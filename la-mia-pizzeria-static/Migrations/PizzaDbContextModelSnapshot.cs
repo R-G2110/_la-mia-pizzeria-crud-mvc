@@ -99,6 +99,9 @@ namespace la_mia_pizzeria_static.Migrations
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.HasKey("PizzaId", "IngredientId");
 
                     b.HasIndex("IngredientId");

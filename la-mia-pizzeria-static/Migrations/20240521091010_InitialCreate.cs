@@ -62,7 +62,8 @@ namespace la_mia_pizzeria_static.Migrations
                 columns: table => new
                 {
                     PizzaId = table.Column<int>(type: "int", nullable: false),
-                    IngredientId = table.Column<int>(type: "int", nullable: false)
+                    IngredientId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

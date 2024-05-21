@@ -1,7 +1,9 @@
 ﻿@model Pizza
+
 @{
     ViewData["Title"] = "Dettagli Pizza";
 }
+
 <style>
     .card {
         min-width: 1000px;
@@ -9,20 +11,49 @@
 </style>
 
 <h1 class="text-center my-5"><strong>Dettagli Pizza</strong></h1>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
+<div class="row">
+        <div class="col-auto mx-auto">
+            <!-- Aggiunto mx-auto per centrare la colonna -->
             <div class="card">
-                <img src="@Url.Content(Model.ImagePath)" class="card-img-top" alt="Foto Pizza">
-                <div class="card-body">
-                    <h5 class="card-title"><strong>@Model.Name</strong></h5>
-                    <h6 class="card-title"><strong>@Model.Category.Name</strong></h6>
-                    <p class="card-text">@Model.Description</p>
-                </div>
-                <div class="card-footer">
-                    <h5 class="card-text">Prezzo: <strong>@Model.Price €</strong></h5>
-                </div>
+                @if (Model != null)
+                {
+                    <img src="@Url.Content(Model.ImagePath)" class="card-img-top" alt="Foto Pizza">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>@Model.Name</strong></h5>
+                        <h6 class="card-title">
+                            <strong>Categoria:</strong>
+                            @Model.Category?.Name
+                        </h6>
+                        <h6 class="card-text">
+                            <strong>Ingredienti:</strong>
+                            @if (Model.PizzaIngredients != null && Model.PizzaIngredients.Any())
+                            {
+                                <span class="card-text">
+                                    @string.Join(", ", Model.PizzaIngredients
+                                             .Where(pi => pi.Ingredient != null)
+                                             .Select(pi => pi.Ingredient.Name))
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Nessun ingredienti disponibile.</span>
+                            }
+                        </h6>
+                        <h6 class="card-title"><strong>Descrizione:</strong> @Model.Description</h6>
+                    </div>
+                    <div class="card-footer">
+                        <h5 class="card-text">Prezzo: <strong>@Model.Price €</strong></h5>
+                    </div>
+                }
+                else
+                {
+                    <p>Unable to retrieve pizza details.</p>
+                }
+            </div>
+            <div class="text-end my-3">
+                <a asp-action="Index" class="btn btn-secondary">Torna Indietro</a>
             </div>
         </div>
-    </div>
 </div>
+
+

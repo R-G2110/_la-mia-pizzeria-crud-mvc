@@ -4,7 +4,7 @@ namespace la_mia_pizzeria_static.Models
 {
     public class Pizza
     {
-        public int Id { get; set; }
+        [Key] public int Id { get; set; }
 
         [Required(ErrorMessage = "Il campo Nome è obbligatorio.")]
         [MinLength(3, ErrorMessage = "Il campo Nome deve avere almeno 3 caratteri.")]
@@ -24,10 +24,9 @@ namespace la_mia_pizzeria_static.Models
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
-        public List<PizzaIngredient>? PizzaIngredients { get; set; } = new List<PizzaIngredient>();
+        public ICollection<PizzaIngredient> PizzaIngredients { get; set; }
 
         public Pizza() { }
-
         public Pizza(string nome, string descrizione, string foto, decimal prezzo, int categoriaId) : this()
         {
             Name = nome;

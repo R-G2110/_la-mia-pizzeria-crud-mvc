@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_static.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,31 +24,101 @@ namespace la_mia_pizzeria_static.Data
             }
         }
 
+        public static Ingredient GetIngredient(int id)
+        {
+            using (var db = new PizzaDbContext())
+            {
+                return db.Ingredients.FirstOrDefault(i => i.Id == id);
+            }
+        }
+
         public static Pizza GetPizza(int id)
         {
             using (PizzaDbContext db = new PizzaDbContext())
             {
-                return db.Pizzas.Include(p => p.Category).FirstOrDefault(p => p.Id == id);
+                return db.Pizzas
+                         .Include(p => p.Category)
+                         .Include(p => p.PizzaIngredients)
+                             .ThenInclude(pi => pi.Ingredient)
+                         .FirstOrDefault(p => p.Id == id);
             }
         }
-
-        public static void InsertPizza(Pizza pizza)
+        public static void InsertPizza(Pizza pizza, int[] selectedIngredients)
         {
+            if (pizza == null)
+            {
+                // Gestisci il caso in cui pizza è null (ad esempio, solleva un'eccezione o esegui un'altra azione)
+                throw new ArgumentNullException(nameof(pizza), "La pizza non può essere nulla.");
+            }
+
             using (PizzaDbContext db = new PizzaDbContext())
             {
+                // Aggiungi la pizza al contesto del database
                 db.Pizzas.Add(pizza);
+
+                // Aggiungi gli ingredienti selezionati alla pizza
+                if (selectedIngredients != null)
+                {
+                    foreach (var ingredientId in selectedIngredients)
+                    {
+                        var ingredient = db.Ingredients.Find(ingredientId);
+                        if (ingredient != null)
+                        {
+                            // Assicurati che pizza.PizzaIngredients non sia null
+                            pizza.PizzaIngredients ??= new List<PizzaIngredient>();
+                            pizza.PizzaIngredients.Add(new PizzaIngredient { IngredientId = ingredientId });
+                        }
+                    }
+                }
+
+                // Salva le modifiche nel database
                 db.SaveChanges();
             }
         }
 
-        public static void UpdatePizza(Pizza pizza)
+
+
+        public static void UpdatePizza(Pizza pizza, int[] selectedIngredients)
         {
             using (PizzaDbContext db = new PizzaDbContext())
             {
-                db.Pizzas.Update(pizza);
+                var originalPizza = db.Pizzas
+                                      .Include(p => p.PizzaIngredients)
+                                      .SingleOrDefault(p => p.Id == pizza.Id);
+
+                if (originalPizza == null)
+                {
+                    // Pizza non trovata, gestisci di conseguenza (ad esempio, restituisci o solleva un'eccezione)
+                    return;
+                }
+
+                // Aggiorna le proprietà della pizza originale con quelle della pizza modificata
+                originalPizza.Name = pizza.Name;
+                originalPizza.Price = pizza.Price;
+                originalPizza.Description = pizza.Description;
+                originalPizza.CategoryId = pizza.CategoryId;
+
+                // Rimuovi gli ingredienti esistenti associati alla pizza
+                originalPizza.PizzaIngredients.Clear();
+
+                // Aggiungi o aggiorna gli ingredienti selezionati
+                if (selectedIngredients != null)
+                {
+                    foreach (var ingredientId in selectedIngredients)
+                    {
+                        var ingredient = db.Ingredients.Find(ingredientId);
+                        if (ingredient != null)
+                        {
+                            originalPizza.PizzaIngredients.Add(new PizzaIngredient { IngredientId = ingredientId });
+                        }
+                    }
+                }
+
+                // Esegui l'aggiornamento nel contesto del database
                 db.SaveChanges();
             }
         }
+
 
         public static void DeletePizza(int id)
         {
@@ -109,8 +180,24 @@ namespace la_mia_pizzeria_static.Data
                         new Ingredient("Acqua"),
                         new Ingredient("Sale"),
                         new Ingredient("Lievito madre"),
-                        new Ingredient("Pizze speciali"),
-                        new Ingredient("Mozzarella")
+                        new Ingredient("Pomodoro"),
+                        new Ingredient("Mozzarella"),
+                        new Ingredient("Olio EVO"),
+                        new Ingredient("Basilico"),
+                        new Ingredient("Aglio"),
+                        new Ingredient("Origano"),
+                        new Ingredient("Salame piccante"),
+                        new Ingredient("Peperoncino"),
+                        new Ingredient("Mortadella"),
+                        new Ingredient("Stracchino"),
+                        new Ingredient("Pesto"),
+                        new Ingredient("Carciofi"),
+                        new Ingredient("Prosciutto cotto"),
+                        new Ingredient("Funghi"),
+                        new Ingredient("Olive"),
+                        new Ingredient("Salsiccia"),
+                        new Ingredient("Friarielli"),
+                        new Ingredient("Mozzarella di bufala")
                     );
                     db.SaveChanges();
                 }
@@ -155,4 +242,5 @@ namespace la_mia_pizzeria_static.Data
         }
 
     }
+    
 }

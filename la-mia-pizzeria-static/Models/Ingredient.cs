@@ -10,7 +10,7 @@ namespace la_mia_pizzeria_static.Models
         [MaxLength(100, ErrorMessage = "Il campo Nome non può superare i 100 caratteri.")]
         public string Name { get; set; }
 
-        public List<PizzaIngredient> PizzaIngredients { get; set; } = new List<PizzaIngredient>();
+        public List<PizzaIngredient> PizzaIngredients { get; set; }
         // Costruttore vuoto
         public Ingredient() { }
         public Ingredient(string nome)

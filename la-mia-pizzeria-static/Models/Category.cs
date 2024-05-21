@@ -5,7 +5,7 @@ namespace la_mia_pizzeria_static.Models
 {
     public class Category
     {
-        public int Id { get; set; }
+        [Key] public int Id { get; set; }
 
         [Required(ErrorMessage = "Il campo Nome è obbligatorio.")]
         public string Name { get; set; }

@@ -12,7 +12,7 @@ using la_mia_pizzeria_static.Data;
 namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(PizzaDbContext))]
-    [Migration("20240520200444_InitialCreate")]
+    [Migration("20240521091010_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,6 +99,9 @@ namespace la_mia_pizzeria_static.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.HasKey("PizzaId", "IngredientId");

@@ -44,23 +44,27 @@ namespace LaMiaPizzeria.Controllers
         public IActionResult Create()
         {
             ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name");
+            ViewBag.Ingredients = GetIngredients();
             return View("PizzaForm", new Pizza());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza pizza)
+        public IActionResult Create(Pizza pizza, int[] selectedIngredients)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                PizzaManager.InsertPizza(pizza);
+                // Chiamata al metodo InsertPizza con l'array selectedIngredients
+                PizzaManager.InsertPizza(pizza, selectedIngredients);
                 TempData["SuccessMessage"] = $"La pizza {pizza.Name} è stata creata con successo!";
                 return RedirectToAction("Index");
             }
 
             ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name");
+            ViewBag.Ingredients = GetIngredients();
             return View("PizzaForm", pizza);
         }
+
 
         public IActionResult Edit(int id)
         {
@@ -68,6 +72,7 @@ namespace LaMiaPizzeria.Controllers
             if (pizza != null)
             {
                 ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name", pizza.CategoryId);
+                ViewBag.Ingredients = GetIngredients();
                 return View("PizzaForm", pizza);
             }
             else
@@ -78,18 +83,37 @@ namespace LaMiaPizzeria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Pizza pizza)
+        public IActionResult Edit(Pizza pizza, int[] selectedIngredients)
         {
             if (ModelState.IsValid)
             {
-                PizzaManager.UpdatePizza(pizza);
-                TempData["SuccessMessage"] = $"La pizza {pizza.Name} è stata modificata con successo!";
-                return RedirectToAction("Index");
+                ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name", pizza.CategoryId);
+                ViewBag.Ingredients = GetIngredients();
+                return View("PizzaForm", pizza);
             }
 
-            ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name", pizza.CategoryId);
-            return View("PizzaForm", pizza);
+            // Chiamata al metodo UpdatePizza con l'array selectedIngredients
+            PizzaManager.UpdatePizza(pizza, selectedIngredients);
+
+            TempData["SuccessMessage"] = $"La pizza {pizza.Name} è stata modificata con successo!";
+            return RedirectToAction("Index");
         }
+
+
+
+
+
+        private List<Ingredient> GetIngredients()
+        {
+            using (var db = new PizzaDbContext())
+            {
+                return db.Ingredients.ToList();
+            }
+        }
+
+
+
+
 
         public IActionResult Delete(int id)
         {
