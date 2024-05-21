@@ -98,5 +98,61 @@ namespace la_mia_pizzeria_static.Data
                 }
             }
         }
+        public static void SeedIngredient()
+        {
+            using (PizzaDbContext db = new PizzaDbContext())
+            {
+                if (db.Ingredients.Count() == 0)
+                {
+                    db.Ingredients.AddRange(
+                        new Ingredient("Farina 00"),
+                        new Ingredient("Acqua"),
+                        new Ingredient("Sale"),
+                        new Ingredient("Lievito madre"),
+                        new Ingredient("Pizze speciali"),
+                        new Ingredient("Mozzarella")
+                    );
+                    db.SaveChanges();
+                }
+            }
+        }
+        public static void SeedPizzaIngredient()
+        {
+            using (PizzaDbContext db = new PizzaDbContext())
+            {
+                if (db.PizzaIngredients.Count() == 0)
+                {
+                    var margherita = db.Pizzas.First(p => p.Name == "Margherita");
+                    var marinara = db.Pizzas.First(p => p.Name == "Marinara");
+                    var diavola = db.Pizzas.First(p => p.Name == "Diavola");
+
+                    var farina = db.Ingredients.First(i => i.Name == "Farina 00");
+                    var acqua = db.Ingredients.First(i => i.Name == "Acqua");
+                    var sale = db.Ingredients.First(i => i.Name == "Sale");
+                    var lievito = db.Ingredients.First(i => i.Name == "Lievito madre");
+                    var mozzarella = db.Ingredients.First(i => i.Name == "Mozzarella");
+
+                    db.PizzaIngredients.AddRange(
+                        new PizzaIngredient { PizzaId = margherita.Id, IngredientId = farina.Id },
+                        new PizzaIngredient { PizzaId = margherita.Id, IngredientId = acqua.Id },
+                        new PizzaIngredient { PizzaId = margherita.Id, IngredientId = sale.Id },
+                        new PizzaIngredient { PizzaId = margherita.Id, IngredientId = lievito.Id },
+                        new PizzaIngredient { PizzaId = margherita.Id, IngredientId = mozzarella.Id },
+                        new PizzaIngredient { PizzaId = marinara.Id, IngredientId = farina.Id },
+                        new PizzaIngredient { PizzaId = marinara.Id, IngredientId = acqua.Id },
+                        new PizzaIngredient { PizzaId = marinara.Id, IngredientId = sale.Id },
+                        new PizzaIngredient { PizzaId = marinara.Id, IngredientId = lievito.Id },
+                        new PizzaIngredient { PizzaId = diavola.Id, IngredientId = farina.Id },
+                        new PizzaIngredient { PizzaId = diavola.Id, IngredientId = acqua.Id },
+                        new PizzaIngredient { PizzaId = diavola.Id, IngredientId = sale.Id },
+                        new PizzaIngredient { PizzaId = diavola.Id, IngredientId = lievito.Id },
+                        new PizzaIngredient { PizzaId = diavola.Id, IngredientId = mozzarella.Id }
+                    );
+
+                    db.SaveChanges();
+                }
+            }
+        }
+
     }
 }

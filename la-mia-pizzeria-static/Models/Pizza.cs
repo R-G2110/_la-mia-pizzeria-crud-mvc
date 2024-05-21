@@ -21,8 +21,10 @@ namespace la_mia_pizzeria_static.Models
 
         public string? ImagePath { get; set; }
 
-        public int? CategoryId { get; set; } // Make CategoryId nullable
+        public int? CategoryId { get; set; }
         public Category? Category { get; set; }
+
+        public List<PizzaIngredient>? PizzaIngredients { get; set; } = new List<PizzaIngredient>();
 
         public Pizza() { }
 

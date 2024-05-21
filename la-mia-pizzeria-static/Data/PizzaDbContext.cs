@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_static.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace la_mia_pizzeria_static.Data
 {
@@ -7,6 +8,8 @@ namespace la_mia_pizzeria_static.Data
     {
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<PizzaIngredient> PizzaIngredients { get; set; }
 
         public const string CONNECTION_STRING = "Data Source=localhost;Initial Catalog=db_la_pizzeria;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
@@ -14,13 +17,29 @@ namespace la_mia_pizzeria_static.Data
         {
             optionsBuilder.UseSqlServer(CONNECTION_STRING);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Pizza>()
-                .HasOne(p => p.Category)
-                .WithMany(c => c.Pizzas)
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Pizzas)
+                .WithOne(p => p.Category)
                 .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull); // On delete set null
+
+            modelBuilder.Entity<PizzaIngredient>()
+                .HasKey(pi => new { pi.PizzaId, pi.IngredientId });
+
+            modelBuilder.Entity<PizzaIngredient>()
+                .HasOne(pi => pi.Pizza)
+                .WithMany(p => p.PizzaIngredients)
+                .HasForeignKey(pi => pi.PizzaId)
+                .OnDelete(DeleteBehavior.Cascade); // Cascading delete for PizzaIngredient
+
+            modelBuilder.Entity<PizzaIngredient>()
+                .HasOne(pi => pi.Ingredient)
+                .WithMany(i => i.PizzaIngredients)
+                .HasForeignKey(pi => pi.IngredientId)
+                .OnDelete(DeleteBehavior.Cascade); // Cascading delete for PizzaIngredient
 
             base.OnModelCreating(modelBuilder);
         }

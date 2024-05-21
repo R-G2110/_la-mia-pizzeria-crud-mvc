@@ -1,7 +1,5 @@
 using la_mia_pizzeria_static.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,6 +10,7 @@ namespace la_mia_pizzeria_static
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             // Inizializza il database
             using (var context = new PizzaDbContext())
             {
@@ -20,7 +19,9 @@ namespace la_mia_pizzeria_static
 
             // Esegui il seeding dei dati
             PizzaManager.SeedCategory();
+            PizzaManager.SeedIngredient();
             PizzaManager.SeedPizza();
+            PizzaManager.SeedPizzaIngredient();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

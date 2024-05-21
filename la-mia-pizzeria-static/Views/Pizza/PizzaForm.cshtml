@@ -4,7 +4,7 @@
     ViewData["Title"] = isEditMode ? "Modifica Pizza" : "Crea Pizza";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1 class="text-center mt-5"><strong>@ViewData["Title"]</strong></h1>
 
 <form asp-controller="Pizza" asp-action="@((isEditMode) ? "Edit" : "Create")" method="post" enctype="multipart/form-data" class="row g-3">
     <div class="form-group col-md-6">
