@@ -7,6 +7,7 @@
 <h1 class="text-center mt-5"><strong>@ViewData["Title"]</strong></h1>
 
 <form asp-controller="Pizza" asp-action="@((isEditMode) ? "Edit" : "Create")" method="post" enctype="multipart/form-data" class="row g-3">
+    <div class="card "></div>
     <div class="form-group col-md-6">
         <label asp-for="Name">Nome pizza:</label>
         <input asp-for="Name" class="form-control mt-2" />
@@ -67,3 +68,4 @@
         <a asp-action="Index" class="btn btn-secondary mx-1">Torna Indietro</a>
     </div>
 </form>
+

@@ -14,10 +14,10 @@
 <div class="row">
         <div class="col-auto mx-auto">
             <!-- Aggiunto mx-auto per centrare la colonna -->
-            <div class="card">
+            <div class="card" style="height: 600px; border: 2px solid black; overflow: hidden; border-radius: 10px;">
                 @if (Model != null)
                 {
-                    <img src="@Url.Content(Model.ImagePath)" class="card-img-top" alt="Foto Pizza">
+                <img src="@Url.Content(Model.ImagePath)" class="card-img-top" alt="Foto Pizza" style="height: 100%; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title"><strong>@Model.Name</strong></h5>
                         <h6 class="card-title">
@@ -41,7 +41,7 @@
                         </h6>
                         <h6 class="card-title"><strong>Descrizione:</strong> @Model.Description</h6>
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer p-3 border-top-0 text-end" style="background-color: #FFFFFF;">
                         <h5 class="card-text">Prezzo: <strong>@Model.Price €</strong></h5>
                     </div>
                 }

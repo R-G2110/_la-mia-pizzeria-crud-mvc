@@ -52,7 +52,7 @@ namespace LaMiaPizzeria.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Pizza pizza, int[] selectedIngredients)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 // Chiamata al metodo InsertPizza con l'array selectedIngredients
                 PizzaManager.InsertPizza(pizza, selectedIngredients);
@@ -85,7 +85,7 @@ namespace LaMiaPizzeria.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Pizza pizza, int[] selectedIngredients)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name", pizza.CategoryId);
                 ViewBag.Ingredients = GetIngredients();

@@ -4,7 +4,7 @@ namespace la_mia_pizzeria_static.Models
 {
     public class Ingredient
     {
-        public int Id { get; set; }
+        [Key] public int Id { get; set; }
 
         [Required(ErrorMessage = "Il campo Nome è obbligatorio.")]
         [MaxLength(100, ErrorMessage = "Il campo Nome non può superare i 100 caratteri.")]
