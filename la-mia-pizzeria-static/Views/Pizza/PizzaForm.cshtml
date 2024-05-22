@@ -1,4 +1,5 @@
 ﻿@model la_mia_pizzeria_static.Models.Pizza
+
 @{
     bool isEditMode = Model != null && Model.Id != 0;
     ViewData["Title"] = isEditMode ? "Modifica Pizza" : "Crea Pizza";

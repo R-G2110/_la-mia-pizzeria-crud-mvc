@@ -31,7 +31,6 @@ namespace LaMiaPizzeria.Controllers
             return View("Index", pizzas);
         }
 
-
         public IActionResult GetPizza(int id)
         {
             var pizza = PizzaManager.GetPizza(id);
@@ -62,9 +61,15 @@ namespace LaMiaPizzeria.Controllers
 
             ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name");
             ViewBag.Ingredients = GetIngredients();
+
+            // Aggiungi gli ingredienti selezionati al modello
+            if (selectedIngredients != null)
+            {
+                pizza.PizzaIngredients = selectedIngredients.Select(id => new PizzaIngredient { IngredientId = id }).ToList();
+            }
+
             return View("PizzaForm", pizza);
         }
-
 
         public IActionResult Edit(int id)
         {
@@ -89,6 +94,13 @@ namespace LaMiaPizzeria.Controllers
             {
                 ViewBag.Categories = new SelectList(GetCategories(), "Id", "Name", pizza.CategoryId);
                 ViewBag.Ingredients = GetIngredients();
+
+                // Aggiungi gli ingredienti selezionati al modello
+                if (selectedIngredients != null)
+                {
+                    pizza.PizzaIngredients = selectedIngredients.Select(id => new PizzaIngredient { IngredientId = id }).ToList();
+                }
+
                 return View("PizzaForm", pizza);
             }
 
@@ -99,10 +111,6 @@ namespace LaMiaPizzeria.Controllers
             return RedirectToAction("Index");
         }
 
-
-
-
-
         private List<Ingredient> GetIngredients()
         {
             using (var db = new PizzaDbContext())
@@ -110,10 +118,6 @@ namespace LaMiaPizzeria.Controllers
                 return db.Ingredients.ToList();
             }
         }
-
-
-
-
 
         public IActionResult Delete(int id)
         {
@@ -128,6 +132,7 @@ namespace LaMiaPizzeria.Controllers
             TempData["SuccessMessage"] = $"La pizza {pizza.Name} è stata eliminata con successo!";
             return RedirectToAction("Index");
         }
+
         private List<Category> GetCategories()
         {
             using (var db = new PizzaDbContext())
